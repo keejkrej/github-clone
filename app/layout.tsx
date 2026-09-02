@@ -1,36 +1,37 @@
-import { Analytics } from '@vercel/analytics/next'
-import type { Metadata, Viewport } from 'next'
-import './globals.css'
+import { Analytics } from "@vercel/analytics/next"
+import type { Metadata, Viewport } from "next"
+
+import { AppFooter } from "@/components/github/footer"
+import { AppHeader } from "@/components/github/header"
+import { StoreProvider } from "@/lib/platform/provider"
+
+import "./globals.css"
 
 export const metadata: Metadata = {
-  title: 'Northstar — Your developer workspace',
-  description: 'A focused GitHub-style workspace for shipping better code together.',
-  generator: 'v0.app',
+  title: "GitHub",
+  description: "GitHub is where people build software.",
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
+        url: "/icon-light-32x32.png",
+        media: "(prefers-color-scheme: light)",
       },
       {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
+        url: "/icon-dark-32x32.png",
+        media: "(prefers-color-scheme: dark)",
       },
       {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: "/icon.svg",
+        type: "image/svg+xml",
       },
     ],
-    apple: '/apple-icon.png',
+    apple: "/apple-icon.png",
   },
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  colorScheme: "light",
+  themeColor: "white",
 }
 
 export default function RootLayout({
@@ -40,9 +41,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-background">
-      <body className="antialiased">
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+      <body className="min-h-screen antialiased">
+        <StoreProvider>
+          <div className="flex min-h-screen flex-col bg-background text-foreground">
+            <AppHeader />
+            <div className="flex-1">{children}</div>
+            <AppFooter />
+          </div>
+        </StoreProvider>
+        {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
   )
